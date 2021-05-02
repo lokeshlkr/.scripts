@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [[ $1 = "scripts" ]] ; then
+    code ~/scripts/
+    exit
+fi
+
+if [[ $1 = "updatetheme" ]] ; then
+    code ~/.config/xfce4/terminal/terminalrc
+    exit
+fi
