@@ -18,9 +18,9 @@ if [[ $1 = "search" ]] ; then
     exit
 fi
 
-if [[ $1 = "push" ]] ; then
+if [[ $1 = "sync" ]] ; then
     if [[ -d ./.git ]] ; then
-        git add . && git commit -m "syncing" && git push origin master || echo ">>Something went wrong<<".
+        git add . && git commit -m "syncing" && git push origin master && echo "Sync completed."|| echo ">>Something went wrong<<".
     else
         echo Not a git repository.
     fi
