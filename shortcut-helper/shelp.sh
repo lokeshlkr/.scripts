@@ -20,7 +20,7 @@ fi
 
 if [[ $1 = "push" ]] ; then
     if [[ -d ./.git ]] ; then
-        git add . && git commit -m "syncing" && git push origin master || echo Something went wrong.
+        git add . && git commit -m "syncing" && git push origin master || echo ">>Something went wrong<<".
     else
         echo Not a git repository.
     fi
