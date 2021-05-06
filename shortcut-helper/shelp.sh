@@ -20,9 +20,9 @@ fi
 
 if [[ $1 = "sync" ]] ; then
     if [[ -d ./.git ]] ; then
-        git add . && git commit -m "syncing" && git push origin master && echo "\e[0;32Sync completed."|| echo "\e[0;31Something went wrong."
+        git add . && git commit -m "syncing" && git push origin master && echo "\\e[0;32mSync completed.\\e[0;0m"|| echo "\\e[0;31mSomething went wrong.\\e[0;0m"
     else
-        echo "\e[0;33Not a git repository."
+        echo -e "\\e[0;33mNot a git repository.\\e[0;0m"
     fi
     exit
 fi
