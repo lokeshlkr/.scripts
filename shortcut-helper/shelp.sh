@@ -14,7 +14,7 @@ if [[ $1 = "updatetheme" ]] ; then
 fi
 
 if [[ $1 = "search" ]] ; then
-    firefox "https://duckduckgo.com/?q=$rest"
+    firefox "https://duckduckgo.com/?q=$rest" 2>/dev/null &
     exit
 fi
 
