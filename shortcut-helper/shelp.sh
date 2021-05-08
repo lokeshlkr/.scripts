@@ -5,12 +5,12 @@ rest="${args[@]:1}"
 commands=(configure updatetheme search browse sync)
 
 if [[ $1 = ${commands[0]} ]] ; then
-    nvim ~/.scripts/shortcut-helper/shelp.sh
+    code ~/.scripts/shortcut-helper/shelp.sh
     exit
 fi
 
 if [[ $1 = ${commands[1]} ]] ; then
-    nvim ~/.config/xfce4/terminal/terminalrc
+    code ~/.config/xfce4/terminal/terminalrc
     exit
 fi
 
@@ -32,7 +32,8 @@ if [[ $1 = ${commands[4]} ]] ; then
     fi
     exit
 fi
-
-echo -e "\\e[0;31mUnknown command:\\e[0;0m $1"
-echo -e "\\e[1;34mKnown Commands:\\e[0;32m ${commands[@]:0}\\e[0;0m"
+echo             "--------------------"
+echo -e "\\e[1;31m[!] Unknown command:\\e[0;0m $1"
+echo -e "\\e[0;34m[i] Known Commands :\\e[0;32m ${commands[@]:0}\\e[0;0m"
+echo             "--------------------"
 exit
