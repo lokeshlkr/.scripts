@@ -2,38 +2,32 @@
 
 args=($@)
 rest="${args[@]:1}"
-commands=(configure updatetheme search browse sync)
 
-if [[ $1 = ${commands[0]} ]] ; then
+configure(){
     code ~/.scripts/shortcut-helper/shelp.sh
-    exit
-fi
-
-if [[ $1 = ${commands[1]} ]] ; then
+}
+updatetheme(){
     code ~/.config/xfce4/terminal/terminalrc
-    exit
-fi
-
-if [[ $1 = ${commands[2]} ]] ; then
+}
+search(){    
     firefox "https://duckduckgo.com/?q=$rest" 2>/dev/null &
-    exit
-fi
-
-if [[ $1 = ${commands[3]} ]] ; then
+}
+browse(){
     firefox "https://$rest" 2>/dev/null &
-    exit
-fi
-
-if [[ $1 = ${commands[4]} ]] ; then
+}
+sync(){
     if [[ -d ./.git ]] ; then
         git add . && git commit -m "syncing $rest" && git push origin master && echo -e "\\e[1;32mSync completed.\\e[0;0m"|| echo -e "\\e[1;31mSomething went wrong.\\e[0;0m"
     else
         echo -e "\\e[0;33mNot a git repository.\\e[0;0m"
     fi
-    exit
-fi
-echo             "--------------------"
-echo -e "\\e[1;31m[!] Unknown command:\\e[0;0m $1"
-echo -e "\\e[0;34m[i] Known Commands :\\e[0;32m ${commands[@]:0}\\e[0;0m"
-echo             "--------------------"
-exit
+}
+help(){
+    echo -e "\\e[1;31m[!] Unknown command:\\e[1;37m '$1'"
+    echo -e "\\e[0;32m[i] Known commands:\\e[1;37m"
+    echo -e "$commands\\e[0;0m"
+}
+
+commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
+$1 || help
+
