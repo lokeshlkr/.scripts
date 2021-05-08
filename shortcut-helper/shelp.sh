@@ -28,7 +28,6 @@ help(){
     echo -e "$commands\\e[0;0m"
 }
 
-# commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
-commands=$(typeset -f)
+commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
 $1 || help
 
