@@ -9,10 +9,13 @@ configure(){
 updatetheme(){
     code ~/.config/xfce4/terminal/terminalrc
 }
-search(){    
+search(){        
     firefox "https://duckduckgo.com/?q=$rest" 2>/dev/null &
 }
 browse(){
+    if [[ $rest != *"."* ]]; then 
+        rest="$rest.com"
+    fi
     firefox "https://$rest" 2>/dev/null &
 }
 sync(){

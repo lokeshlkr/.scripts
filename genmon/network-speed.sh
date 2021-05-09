@@ -5,7 +5,6 @@
 # cat /sys/class/net/ to see all available interfaces
 
 interface=$1
-test -d /sys/class/net/$interface
 
 # added so as to recover from a corrupt run
 # where the netlog file is written in 
@@ -15,6 +14,7 @@ if [[ $(wc /tmp/netlog | awk '{print $2}') < 3 ]] ; then
 fi
 
 #wlp0s20f3 - wifi
+test -d /sys/class/net/$interface
 
 # Handle unknown interface
 if [ $? -ne "0" ]; then
