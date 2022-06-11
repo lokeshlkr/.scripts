@@ -45,5 +45,5 @@ tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/netlog
 
-printf "<txt><span color='#ee77aa'>% 5d ↑</span>\n<span color='#77aaee'>% 5d ↓</span></txt>\n" $tx $rx 
+printf "<txt><span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span></txt>\n" $tx $rx 
 printf "<tool>Bandwidth on interface <b>$interface</b></tool>" 
