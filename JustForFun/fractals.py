@@ -3,8 +3,8 @@ from tkinter import *
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 
-height=400
-width=400
+height=500
+width=500
 fb = []
 
 def show_tui():
@@ -38,8 +38,9 @@ def get_color(x,y,i):
 for y in range(height):
     for x in range(width):
         zx,zy = cx,cy = -2+2.5*x/width, -1.25+2.5*y/height
-        for i in range(25):
+        i = 0
+        while (i < 25) and ((zx*zx)+(zy*zy) <= 4):
             zx,zy = (zx*zx-zy*zy)+cx, (2*zx*zy)+cy
-            if (zx*zx)+(zy*zy) > 4: break
         get_color(x,y,i)
-show_tui()
+# show_gui()
+save_image()
