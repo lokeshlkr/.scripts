@@ -5,6 +5,22 @@
 # cat /sys/class/net/ to see all available interfaces
 
 interface=$1
+if [[ $interface -eq "" ]]; then 
+	interface="$(ifconfig | grep -iEo '^w[a-z0-9]+')"
+fi
+
+#wlp0s20f3 - wifi
+test -d /sys/class/net/$interface
+if [ $? -ne "0" ]; then
+	echo "No statistics for $interface"
+	exit
+fi
+
+connected="$(ifconfig |  grep $interface | grep RUNNING |wc -l)"
+if [[ connected -eq "0" ]]; then
+	echo "Not Connected!"
+	exit
+fi
 
 # added so as to recover from a corrupt run
 # where the netlog file is written in 
@@ -13,14 +29,6 @@ if [[ $(wc /tmp/netlog | awk '{print $2}') < 3 ]] ; then
 	rm /tmp/netlog
 fi
 
-#wlp0s20f3 - wifi
-test -d /sys/class/net/$interface
-
-# Handle unknown interface
-if [ $? -ne "0" ]; then
-	echo "No statistics for $interface"
-	exit
-fi
 now=$(date +"%s%N")
 crx=$(cat "/sys/class/net/$interface/statistics/rx_bytes")
 ctx=$(cat "/sys/class/net/$interface/statistics/tx_bytes")
@@ -45,13 +53,6 @@ tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/netlog
 
-connected="$(ifconfig |  grep wlp0s20f3 | grep RUNNING |wc -l)"
-if [[ connected -ne "0" ]]; then
-	text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
-else
-	text="<span color='#ee77aa'>disconnected ↑ </span>\n<span color='#77aaee'>disconnected ↓ </span>"
-fi
-
-
+text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
 printf "<txt>$text</txt>\n" $tx $rx 
 printf "<tool>Bandwidth on interface <b>$interface</b></tool>" 
