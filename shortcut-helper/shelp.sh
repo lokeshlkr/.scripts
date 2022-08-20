@@ -20,7 +20,7 @@ browse(){
 }
 sync(){
     if [[ -d ./.git ]] ; then
-        git add . && git commit -m "syncing $rest" && git push origin master && echo -e "\\e[1;32mSync completed.\\e[0;0m"|| echo -e "\\e[1;31mSomething went wrong.\\e[0;0m"
+        git add . && git commit -m "autosync: $rest" && git push origin master && echo -e "\\e[1;32mSync completed.\\e[0;0m"|| echo -e "\\e[1;31mSomething went wrong.\\e[0;0m"
     else
         echo -e "\\e[0;33mNot a git repository.\\e[0;0m"
     fi
