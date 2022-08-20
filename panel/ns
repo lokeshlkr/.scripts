@@ -45,5 +45,13 @@ tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/netlog
 
-printf "<txt><span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span></txt>\n" $tx $rx 
+connected="$(ifconfig |  grep wlp0s20f3 | grep RUNNING |wc -l)"
+if [[ connected -ne "0" ]]; then
+	text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
+else
+	text="<span color='#ee77aa'>disconnected ↑ </span>\n<span color='#77aaee'>disconnected ↓ </span>"
+fi
+
+
+printf "<txt>$text</txt>\n" $tx $rx 
 printf "<tool>Bandwidth on interface <b>$interface</b></tool>" 

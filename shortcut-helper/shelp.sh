@@ -30,6 +30,29 @@ help(){
     echo -e "\\e[0;32m[i] Known commands:\\e[1;37m"
     echo -e "$commands\\e[0;0m"
 }
+panel(){
+    /home/stranger/working_folder/.scripts/panel/$rest
+}
+rust(){
+    test -d /home/stranger/working_folder/rust/practice
+
+    if [ $? -ne "0" ]; then
+        cd /home/stranger/working_folder/rust/
+        cargo new practice
+        cd practice
+        code .
+    else
+        code /home/stranger/working_folder/rust/practice
+    fi
+}
+rustnew(){
+    cd /home/stranger/working_folder/rust/
+    mv practice "practice_$(date +%Y%m%d_%H%M%S)"
+    cargo new practice
+    cd practice
+    code .
+}
+
 
 commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
 $1 || help
