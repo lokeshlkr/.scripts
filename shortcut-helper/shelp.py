@@ -80,8 +80,8 @@ def is_git_repo():
 def help():
     print_color("\nAvailable Commands:",fg="blue")
     for command in commands:
-        print_color(" ○ "+command.ljust(15," "),style="bold",end="")
-        print_color(" - "+commands[command])
+        print_color("○ "+command.ljust(15," "),style="bold",end="")
+        print_color("- "+commands[command])
     print()
 
 def search():
@@ -125,8 +125,6 @@ def vsc():
             run('code /home/stranger/working_folder/.scripts')
         case "home":
             run('code /home/stranger')
-        case "keys":
-            run('code /home/stranger/.config/sxhkd')
 
 def restart():
     if len(rest.strip()) == 0:
