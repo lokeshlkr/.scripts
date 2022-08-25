@@ -1,0 +1,5 @@
+super + {Return,w,g,e,l,r}
+    {alacritty,firefox,gpick,thunar,xflock4,rofi -show drun}
+
+super + {k,shift + k}
+    {code /home/stranger/.config/sxhkd/sxhkdrc, s restart sxhkd}

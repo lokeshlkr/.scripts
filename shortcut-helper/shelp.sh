@@ -1,14 +1,10 @@
 #!/bin/sh
 
 args=($@)
+action="$1"
 rest="${args[@]:1}"
 
-configure(){
-    code ~/.scripts/shortcut-helper/shelp.sh
-}
-updatetheme(){
-    code ~/.config/xfce4/terminal/terminalrc
-}
+
 search(){        
     firefox "https://duckduckgo.com/?q=$rest" 2>/dev/null &
 }
@@ -26,8 +22,8 @@ sync(){
     fi
 }
 help(){
-    echo -e "\\e[1;31m[!] Unknown command:\\e[1;37m '$1'"
-    echo -e "\\e[0;32m[i] Known commands:\\e[1;37m"
+    echo -e "\\e[0;34mUsage: s COMMAND [OPTIONS]\\e[1;37m"
+    echo -e "\\e[0;32mKnown Commands:\\e[1;37m"
     echo -e "$commands\\e[0;0m"
 }
 panel(){
@@ -36,13 +32,10 @@ panel(){
 rust(){
     test -d /home/stranger/working_folder/rust/practice
 
-    if [ $? -ne "0" ]; then
-        cd /home/stranger/working_folder/rust/
-        cargo new practice
-        cd practice
-        code .
-    else
+    if [ $? -eq "0" ]; then
         code /home/stranger/working_folder/rust/practice
+    else
+        rustnew
     fi
 }
 rustnew(){
@@ -52,8 +45,38 @@ rustnew(){
     cd practice
     code .
 }
+vsc(){
+    case $rest in
+        *"scripts"*)
+            code /home/stranger/working_folder/.scripts ;;
+        *"home"*)
+            code /home/stranger ;;
+        *"rustnew"*)
+            rustnew ;;
+        *"rust"*)
+            rust ;;
+    esac
+}
+restart(){
+    if [[ $rest ]];then
+        killall $rest
+        sleep 1
+        $rest
+    else
+        echo -e "\\e[0;31mProvide a program to restart.\\e[1;37m"
+    fi
+}
 
 
 commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
-$1 || help
 
+if [[ (-z "$action") ]]; then
+    action="FILLER COMMAND WHEN NO COMMAND IS PROVIDED TO FIX BELOW CASE STATEMENT"
+fi
+
+case $commands in
+    *"$action"*)
+        $action;;
+    *)
+        help;;
+esac

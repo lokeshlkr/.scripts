@@ -1,0 +1,17 @@
+#! /usr/bin/python
+
+import random
+
+dice = ["⚀","⚁","⚂","⚃","⚄","⚅"]
+roll = random.randint(0,5)
+
+rollint = random.randint(1,100)
+
+# output = f"""<txt>{dice[roll]}</txt>
+output = f"""<txt>{str(rollint).rjust(3)}</txt>
+<txtclick>xfce4-panel --plugin-event=genmon-7:refresh:bool:true</txtclick>
+<bar>{rollint}</bar>
+"""
+
+print(output)
+

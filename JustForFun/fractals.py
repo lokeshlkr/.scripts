@@ -1,5 +1,5 @@
 #!/bin/python
-from tkinter import *
+from tk import *
 import PIL.Image as Image
 import PIL.ImageDraw as ImageDraw
 
@@ -37,10 +37,12 @@ def get_color(x,y,i):
 
 for y in range(height):
     for x in range(width):
+        print(y,x)
         zx,zy = cx,cy = -2+2.5*x/width, -1.25+2.5*y/height
         i = 0
         while (i < 25) and ((zx*zx)+(zy*zy) <= 4):
             zx,zy = (zx*zx-zy*zy)+cx, (2*zx*zy)+cy
         get_color(x,y,i)
 # show_gui()
-save_image()
+# save_image()
+show_tui()
