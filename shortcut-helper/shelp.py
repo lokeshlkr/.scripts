@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 import sys,os,ast
-
+from time import sleep
 colors = {
     "style" : {
         'reset' : '\033[0m',
@@ -43,7 +43,17 @@ colors = {
 ################################################
 #################### SETUP #####################
 ################################################
-commands=['help','search','browse','sync']
+commands={
+    'help':'Show this help message',
+    'search':'Search a text in firefox in duckduckgo',
+    'browse':'Browse any URL in firefox',
+    'sync':'Push a git repository to origin',
+    'panel':'Run a panel script',
+    'rust':'Open rust practice project in VSCode',
+    'rustnew':'Create new rust practice project and open it in VSCode',
+    'vsc':'Open some basic locations in VSCode',
+    'restart':'Restart any program',
+}
 filename = sys.argv[0]
 command = rest = ""
 def print_color(text,fg="",bg="",style="",end="\n"):
@@ -70,7 +80,8 @@ def is_git_repo():
 def help():
     print_color("\nAvailable Commands:",fg="blue")
     for command in commands:
-        print("○",command)
+        print_color(" ○ "+command.ljust(15," "),style="bold",end="")
+        print_color(" - "+commands[command])
     print()
 
 def search():
@@ -91,11 +102,42 @@ def sync():
             print_color("Synced Successfully!",fg="green",style="bold")
         else:
             print_color("Some error occured!",fg="red",style="bold")
-        
 
+def panel():
+    file = f"/home/stranger/working_folder/.scripts/panel/{rest}"
+    run(file)
 
+def rustnew():
+    os.chdir("/home/stranger/working_folder/rust/")
+    run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
+    run('cargo new practice')
+    run('code /home/stranger/working_folder/rust/practice')
 
+def rust():
+    if os.path.exists('/home/stranger/working_folder/rust/practice'):
+        run('code /home/stranger/working_folder/rust/practice')
+    else:
+        rustnew()
 
+def vsc():
+    match rest.strip():
+        case "scripts":
+            run('code /home/stranger/working_folder/.scripts')
+        case "home":
+            run('code /home/stranger')
+        case "keys":
+            run('code /home/stranger/.config/sxhkd')
+
+def restart():
+    if len(rest.strip()) == 0:
+        print_color("Provide a program to restart.",fg="red")
+    else:
+        x = run(f'killall {rest}')
+        if(not x):
+            run(rest)
+        else:
+            sleep(0.2)
+            run(rest)
 
 
 ################################################
@@ -115,70 +157,3 @@ else:
 ################################################
 ################################################
 ################################################
-
-# sync(){
-#     if [[ -d ./.git ]] ; then
-#         git add . && git commit -m "autosync: $rest" && git push origin master && echo -e "\\e[1;32mSync completed.\\e[0;0m"|| echo -e "\\e[1;31mSomething went wrong.\\e[0;0m"
-#     else
-#         echo -e "\\e[0;33mNot a git repository.\\e[0;0m"
-#     fi
-# }
-# help(){
-#     echo -e "\\e[0;34mUsage: s COMMAND [OPTIONS]\\e[1;37m"
-#     echo -e "\\e[0;32mKnown Commands:\\e[1;37m"
-#     echo -e "$commands\\e[0;0m"
-# }
-# panel(){
-#     /home/stranger/working_folder/.scripts/panel/$rest
-# }
-# rust(){
-#     test -d /home/stranger/working_folder/rust/practice
-
-#     if [ $? -eq "0" ]; then
-#         code /home/stranger/working_folder/rust/practice
-#     else
-#         rustnew
-#     fi
-# }
-# rustnew(){
-#     cd /home/stranger/working_folder/rust/
-#     mv practice "practice_$(date +%Y%m%d_%H%M%S)"
-#     cargo new practice
-#     cd practice
-#     code .
-# }
-# vsc(){
-#     case $rest in
-#         *"scripts"*)
-#             code /home/stranger/working_folder/.scripts ;;
-#         *"home"*)
-#             code /home/stranger ;;
-#         *"rustnew"*)
-#             rustnew ;;
-#         *"rust"*)
-#             rust ;;
-#     esac
-# }
-# restart(){
-#     if [[ $rest ]];then
-#         killall $rest
-#         sleep 1
-#         $rest
-#     else
-#         echo -e "\\e[0;31mProvide a program to restart.\\e[1;37m"
-#     fi
-# }
-
-
-# commands=$(typeset -F | sed s/-f//g | sed s/declare//g)
-
-# if [[ (-z "$action") ]]; then
-#     action="FILLER COMMAND WHEN NO COMMAND IS PROVIDED TO FIX BELOW CASE STATEMENT"
-# fi
-
-# case $commands in
-#     *"$action"*)
-#         $action;;
-#     *)
-#         help;;
-# esac
