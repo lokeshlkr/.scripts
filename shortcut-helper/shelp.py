@@ -90,7 +90,7 @@ def search():
 
 def browse():
     url = 'https://' + (rest if "." in rest else rest + ".com")
-    command = f'firefox "{url}" 2>/dev/null &'
+    command = f'firefox "{url}" 2>/dev/null &' 
     run(command)
 
 def sync():
