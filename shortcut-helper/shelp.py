@@ -104,27 +104,33 @@ def sync():
             print_color("Some error occured!",fg="red",style="bold")
 
 def panel():
-    file = f"/home/stranger/working_folder/.scripts/panel/{rest}"
+    file = f'{os.path.expanduser("~")}/working_folder/.scripts/panel/{rest}'
     run(file)
 
 def rustnew():
-    os.chdir("/home/stranger/working_folder/rust/")
+    os.chdir(f'{os.path.expanduser("~")}/working_folder/rust/')
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
     run('cargo new practice')
-    run('code /home/stranger/working_folder/rust/practice')
+    if os.path.exists(f'{os.path.expanduser("~")}/working_folder/rust/practice'):
+        run(f'code {os.path.expanduser("~")}/working_folder/rust/practice')
+    else:
+        print_color("Something went wrong, new practice project could not be created.",fg="red",style="bold")
 
 def rust():
-    if os.path.exists('/home/stranger/working_folder/rust/practice'):
-        run('code /home/stranger/working_folder/rust/practice')
+    if os.path.exists(f'{os.path.expanduser("~")}/working_folder/rust/practice'):
+        run(f'code {os.path.expanduser("~")}/working_folder/rust/practice')
     else:
         rustnew()
 
 def vsc():
     match rest.strip():
         case "scripts":
-            run('code /home/stranger/working_folder/.scripts')
+            run(f'code {os.path.expanduser("~")}/working_folder/.scripts')
         case "home":
-            run('code /home/stranger')
+            run(f'code {os.path.expanduser("~")}')
+        case _:
+            print_color("Please provide a folder to open",fg="orange",style="bold")
+
 
 def restart():
     if len(rest.strip()) == 0:

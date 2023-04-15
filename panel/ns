@@ -6,10 +6,11 @@
 
 interface=$1
 if [[ $interface -eq "" ]]; then 
-	interface="$(ifconfig | grep -iEo '^w[a-z0-9]+')"
+	interface="$(ifconfig | grep -iEo '^e[a-z0-9]+')"
 fi
 
 #wlp0s20f3 - wifi
+#enp7s0 - ethernet
 test -d /sys/class/net/$interface
 if [ $? -ne "0" ]; then
 	echo "No statistics for $interface"

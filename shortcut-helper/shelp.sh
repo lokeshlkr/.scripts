@@ -27,19 +27,19 @@ help(){
     echo -e "$commands\\e[0;0m"
 }
 panel(){
-    /home/stranger/working_folder/.scripts/panel/$rest
+    $HOME/working_folder/.scripts/panel/$rest
 }
 rust(){
-    test -d /home/stranger/working_folder/rust/practice
+    test -d $HOME/working_folder/rust/practice
 
     if [ $? -eq "0" ]; then
-        code /home/stranger/working_folder/rust/practice
+        code $HOME/working_folder/rust/practice
     else
         rustnew
     fi
 }
 rustnew(){
-    cd /home/stranger/working_folder/rust/
+    cd $HOME/working_folder/rust/
     mv practice "practice_$(date +%Y%m%d_%H%M%S)"
     cargo new practice
     cd practice
@@ -48,9 +48,9 @@ rustnew(){
 vsc(){
     case $rest in
         *"scripts"*)
-            code /home/stranger/working_folder/.scripts ;;
+            code $HOME/working_folder/.scripts ;;
         *"home"*)
-            code /home/stranger ;;
+            code $HOME ;;
         *"rustnew"*)
             rustnew ;;
         *"rust"*)
