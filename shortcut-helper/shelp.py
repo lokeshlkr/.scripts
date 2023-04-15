@@ -68,8 +68,8 @@ def is_git_repo():
     cwd = os.getcwd()
     cwd = cwd.split('/')[1:]
     isGitRepo = False
-    for i in range(len(cwd)-1,-1,-1):
-        path = '/' + '/'.join(cwd[:i])
+    for i in range(len(cwd)):
+        path = '/' + '/'.join(cwd[:len(cwd)-i])
         dirs = os.listdir(path)
         if '.git' in dirs:
             return path
@@ -102,6 +102,8 @@ def sync():
             print_color("Synced Successfully!",fg="green",style="bold")
         else:
             print_color("Some error occured!",fg="red",style="bold")
+    else:
+        print_color("Not a git repo!",fg="orange",style="bold")
 
 def panel():
     file = f'{os.path.expanduser("~")}/working_folder/.scripts/panel/{rest}'
