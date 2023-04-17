@@ -49,11 +49,23 @@ commands={
     'browse':'Browse any URL in firefox',
     'sync':'Push a git repository to origin',
     'panel':'Run a panel script',
-    'rust':'Open rust practice project in VSCode',
-    'rustnew':'Create new rust practice project and open it in VSCode',
-    'vsc':'Open some basic locations in VSCode',
+    'rust':'Open rust practice project in $editor',
+    'rustnew':'Create new rust practice project and open it in $editor',
+    'vsc':'Open some basic locations in $editor',
     'restart':'Restart any program',
 }
+################################################
+#############    GLOBALS    ####################
+################################################
+editor = "codium"
+browser = "firefox"
+home = os.path.expanduser("~")
+rustpath = f'{home}/working_folder/rust/practice'
+selfpath = f'{home}/working_folder/.scripts'
+################################################
+################################################
+################################################
+
 filename = sys.argv[0]
 command = rest = ""
 def print_color(text,fg="",bg="",style="",end="\n"):
@@ -85,12 +97,12 @@ def help():
     print()
 
 def search():
-    command = f'firefox "https://duckduckgo.com/?q={rest}" 2>/dev/null &'
+    command = f'{browser} "https://duckduckgo.com/?q={rest}" 2>/dev/null &'
     run(command)
 
 def browse():
     url = 'https://' + (rest if "." in rest else rest + ".com")
-    command = f'firefox "{url}" 2>/dev/null &'
+    command = f'{browser} "{url}" 2>/dev/null &'
     run(command) 
 
 def sync():
@@ -106,30 +118,33 @@ def sync():
         print_color("Not a git repo!",fg="orange",style="bold")
 
 def panel():
-    file = f'{os.path.expanduser("~")}/working_folder/.scripts/panel/{rest}'
+    file = f'{home}/working_folder/.scripts/panel/{rest}'
     run(file)
 
+def openineditor(path):
+    if os.path.exists(rustpath):
+        run(f'{editor} {rustpath}')
+        return True
+    return False
+
+
 def rustnew():
-    os.chdir(f'{os.path.expanduser("~")}/working_folder/rust/')
+    os.chdir(f'{rustpath}/..')
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
     run('cargo new practice')
-    if os.path.exists(f'{os.path.expanduser("~")}/working_folder/rust/practice'):
-        run(f'code {os.path.expanduser("~")}/working_folder/rust/practice')
-    else:
+    if not openineditor(rustpath):
         print_color("Something went wrong, new practice project could not be created.",fg="red",style="bold")
 
 def rust():
-    if os.path.exists(f'{os.path.expanduser("~")}/working_folder/rust/practice'):
-        run(f'code {os.path.expanduser("~")}/working_folder/rust/practice')
-    else:
+    if not openineditor(rustpath):
         rustnew()
 
-def vsc():
+def edit():
     match rest.strip():
         case "scripts":
-            run(f'code {os.path.expanduser("~")}/working_folder/.scripts')
+            openineditor(selfpath)
         case "home":
-            run(f'code {os.path.expanduser("~")}')
+            openineditor(home)
         case _:
             print_color("Please provide a folder to open",fg="orange",style="bold")
 
