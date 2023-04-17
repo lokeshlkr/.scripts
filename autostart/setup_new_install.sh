@@ -18,4 +18,8 @@ ln ~/working_folder/.scripts/configs/sxhkdrc ~/.config/sxhkd/sxhkdrc
 mkdir ~/.config/alacritty
 ln ~/working_folder/.scripts/configs/alacritty.yml ~/.config/alacritty/alacritty.yml
 
+mkdir ~/.config/rofi
+ln ~/working_folder/.scripts/configs/config.rasi ~/.config/rofi/config.rasi
+ln ~/working_folder/.scripts/configs/rofi-theme.rasi ~/.config/rofi/rofi-theme.rasi
+
 sudo ln ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s

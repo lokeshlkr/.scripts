@@ -1,0 +1,11 @@
+configuration {
+
+	modi: "drun,run";
+	width: 20;
+	show-icons: true;
+	lines: 10;
+	sidebar-mode: true;
+	
+}
+
+@import "rofi-theme.rasi"
