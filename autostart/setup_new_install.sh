@@ -22,4 +22,7 @@ mkdir ~/.config/rofi
 ln ~/working_folder/.scripts/configs/config.rasi ~/.config/rofi/config.rasi
 ln ~/working_folder/.scripts/configs/rofi-theme.rasi ~/.config/rofi/rofi-theme.rasi
 
+echo "" >> ~/.bashrc
+echo "source ~/working_folder/.scripts/configs/bash_extras.sh" >> ~/.bashrc
+
 sudo ln ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s

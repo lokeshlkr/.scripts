@@ -51,7 +51,7 @@ commands={
     'panel':'Run a panel script',
     'rust':'Open rust practice project in $editor',
     'rustnew':'Create new rust practice project and open it in $editor',
-    'vsc':'Open some basic locations in $editor',
+    'edit':'Open some basic locations in $editor',
     'restart':'Restart any program',
 }
 ################################################
@@ -122,8 +122,8 @@ def panel():
     run(file)
 
 def openineditor(path):
-    if os.path.exists(rustpath):
-        run(f'{editor} {rustpath}')
+    if os.path.exists(path):
+        run(f'{editor} {path}')
         return True
     return False
 
