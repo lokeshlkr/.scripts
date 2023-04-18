@@ -1,5 +1,5 @@
-super + {Return,w,g,e,l,t}
-    {rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
+super + {Return,r,w,g,e,l,t}
+    {s gui,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
 
-super + {k,shift + k}
+super + {k,shift + r}
     {code /home/stranger/.config/sxhkd/sxhkdrc, s restart sxhkd}

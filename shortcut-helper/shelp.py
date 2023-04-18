@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-import sys,os,ast
+import sys,os,ast,subprocess
 from time import sleep
 colors = {
     "style" : {
@@ -53,6 +53,7 @@ commands={
     'rustnew':'Create new rust practice project and open it in $editor',
     'edit':'Open some basic locations in $editor',
     'restart':'Restart any program',
+    'gui':'show dialog box to user to capture a command.'
 }
 ################################################
 #############    GLOBALS    ####################
@@ -164,6 +165,20 @@ def restart():
 ################################################
 #################### INIT ######################
 ################################################
+
+def gui():
+    x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
+    (command, error) = x.communicate()
+    command = str(command)[2:-3] # to get rid of auotes and new line character
+    if command.split(" ")[0] in commands:
+        run(f's {command}')
+    # else:
+    #     x = run(command)
+    #     if x == 0:
+    #         run(f"zenity --info --text='Command completed: {command}'")
+    #     else:
+    #         run(f"zenity --error --text='Command failed: {command}'")
+
 if(len(sys.argv) == 1):
     print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
     help()
