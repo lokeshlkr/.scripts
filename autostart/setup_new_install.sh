@@ -4,12 +4,15 @@
 
 # install stranger nerd fonts first
 
+sudo pacman -Syy
+sudo pacman -S archlinux-keyring
+sudo pacman -Syu
+sudo pacman -S redshift sxhkd xfce4-genmon-plugin rofi alacritty paru
+paru -S vscodium gnome-keyring zenity
+
+
 sudo cp ~/working_folder/.scripts/fonts/StragerMonoNF/* /usr/share/fonts/
 sudo cp ~/working_folder/.scripts/fonts/StragerSansNF/* /usr/share/fonts/
-
-sudo pacman -Syyu
-sudo pacman -S redshift sxhkd xfce4-genmon-plugin rofi alacritty paru
-paru -S vscodium gnome-keyring
 
 mkdir ~/.config
 mkdir ~/.config/sxhkd
