@@ -43,46 +43,54 @@ colors = {
 ################################################
 #################### SETUP #####################
 ################################################
-commands={
-    'help':'Show this help message',
-    'search':'Search a text in firefox in duckduckgo',
-    'browse':'Browse any URL in firefox',
-    'sync':'Push a git repository to origin',
-    'panel':'Run a panel script',
-    'rust':'Open rust practice project in $editor',
-    'rustnew':'Create new rust practice project and open it in $editor',
-    'edit':'Open some basic locations in $editor',
-    'restart':'Restart any program',
-    'gui':'show dialog box to user to capture a command.'
-}
-################################################
-#############    GLOBALS    ####################
-################################################
 editor = "codium"
 browser = "firefox"
 home = os.path.expanduser("~")
-rustpath = f'{home}/working_folder/rust/practice'
-selfpath = f'{home}/working_folder/.scripts'
+commands={
+    'help':'Show this help message',
+    'search':f'Search a text in {browser} in duckduckgo',
+    'browse':f'Browse any URL in {browser}',
+    'sync':'Push a git repository to origin',
+    'panel':'Run a panel script',
+    'rust':f'Open rust practice project in {editor}',
+    'rustnew':f'Create new rust project and open in {editor}',
+    'edit':f'Open some basic locations in {editor}',
+    'restart':'Restart any program',
+    'gui':'show dialog box to capture a command'
+}
+paths = {
+    'home' : home,
+    'rust' : f'{home}/working_folder/rust/practice',
+    'self' : f'{home}/working_folder/.scripts',
+}
 ################################################
 ################################################
 ################################################
 
 filename = sys.argv[0]
 command = rest = ""
-def print_color(text,fg="",bg="",style="",end="\n"):
-    fg = colors["fg"].get(fg.lower(),"")
-    bg = colors["bg"].get(bg.lower(),"")
-    style = colors["style"].get(style.lower(),"")
-    reset = colors["style"]['reset']
-    print(f"{fg}{style}{bg}{text}{reset}",end=end)
 def run(command):
     return os.system(command) == 0
+
+def print_color(text,fg="",bg="",style="",end="\n", notify=0):
+    if notify in (0,2):
+        fg = colors["fg"].get(fg.lower(),"")
+        bg = colors["bg"].get(bg.lower(),"")
+        style = colors["style"].get(style.lower(),"")
+        reset = colors["style"]['reset']
+        formatted_mesasge = f"{fg}{style}{bg}{text}{reset}"
+        print(formatted_mesasge,end=end)
+    if notify > 0:
+        timeout = "-t 0" if len(text) > 100 else ""
+        run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
+
 def is_git_repo():
     cwd = os.getcwd()
     cwd = cwd.split('/')[1:]
     isGitRepo = False
-    for i in range(len(cwd)):
-        path = '/' + '/'.join(cwd[:len(cwd)-i])
+    l = len(cwd)
+    for i in range(l):
+        path = '/' + '/'.join(cwd[:l-i])
         dirs = os.listdir(path)
         if '.git' in dirs:
             return path
@@ -92,9 +100,13 @@ def is_git_repo():
 
 def help():
     print_color("\nAvailable Commands:",fg="blue")
+    text = "Available Commands:\n"
     for command in commands:
-        print_color("○ "+command.ljust(15," "),style="bold",end="")
+        text += "○ "+command.ljust(10," ")
+        text += "- "+commands[command] + "\n"
+        print_color("○ "+command.ljust(10," "),style="bold",end="")
         print_color("- "+commands[command])
+    print_color(text,notify=1)
     print()
 
 def search():
@@ -112,11 +124,11 @@ def sync():
         os.chdir(git_path)
         command = f'git add . && git commit -m "autosync: {rest}" && git push origin master'
         if run(command):
-            print_color("Synced Successfully!",fg="green",style="bold")
+            print_color("Synced Successfully!",fg="green",style="bold", notify=2)
         else:
-            print_color("Some error occured!",fg="red",style="bold")
+            print_color("Some error occured!",fg="red",style="bold", notify=2)
     else:
-        print_color("Not a git repo!",fg="orange",style="bold")
+        print_color("Not a git repo!",fg="orange",style="bold", notify=2)
 
 def panel():
     file = f'{home}/working_folder/.scripts/panel/{rest}'
@@ -130,24 +142,24 @@ def openineditor(path):
 
 
 def rustnew():
-    os.chdir(f'{rustpath}/..')
+    os.chdir(f'{paths["rust"]}/..')
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
     run('cargo new practice')
-    if not openineditor(rustpath):
-        print_color("Something went wrong, new practice project could not be created.",fg="red",style="bold")
+    if not openineditor(paths['rust']):
+        print_color("Something went wrong, new practice project could not be created.",fg="red",style="bold",notify=2)
 
 def rust():
-    if not openineditor(rustpath):
+    if not openineditor(paths['rust']):
         rustnew()
 
 def edit():
     match rest.strip():
-        case "scripts":
-            openineditor(selfpath)
+        case "":
+            openineditor(paths['self'])
         case "home":
-            openineditor(home)
+            openineditor(paths['home'])
         case _:
-            print_color("Please provide a folder to open",fg="orange",style="bold")
+            print_color(f"Folder name not configured.\nCheck spelling or add it in script.",fg="orange",style="bold",notify=2)
 
 
 def restart():
@@ -170,14 +182,7 @@ def gui():
     x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
     (command, error) = x.communicate()
     command = str(command)[2:-3] # to get rid of auotes and new line character
-    if command.split(" ")[0] in commands:
-        run(f's {command}')
-    # else:
-    #     x = run(command)
-    #     if x == 0:
-    #         run(f"zenity --info --text='Command completed: {command}'")
-    #     else:
-    #         run(f"zenity --error --text='Command failed: {command}'")
+    run(f's {command}')
 
 if(len(sys.argv) == 1):
     print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
