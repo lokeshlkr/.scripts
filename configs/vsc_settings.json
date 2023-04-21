@@ -1,0 +1,9 @@
+{
+    "workbench.startupEditor": "none",
+    "editor.fontFamily": "Stranger Nerd Font Mono",
+    "workbench.colorTheme": "One Dark Pro",
+    "workbench.iconTheme": "material-icon-theme",
+    "[python]": {
+        "editor.formatOnType": true
+    }
+}
