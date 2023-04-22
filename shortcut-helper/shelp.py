@@ -88,7 +88,7 @@ def print_color(text,fg="",bg="",style="",end="\n", notify=0):
         formatted_mesasge = f"{fg}{style}{bg}{text}{reset}"
         print(formatted_mesasge,end=end)
     if notify > 0:
-        timeout = "-t 0" if len(text) > 100 else ""
+        timeout = "-t 0" if len(text) > 100 else "-t 5000"
         run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
 
 def is_git_repo():
@@ -131,9 +131,9 @@ def sync():
         os.chdir(git_path)
         command = f'git add . && git commit -m "autosync: {rest}" && git push origin master'
         if run(command):
-            print_color("Synced Successfully!",fg="green",style="bold", notify=2)
+            print_color(f"'{git_path}' Synced Successfully!",fg="green",style="bold", notify=2)
         else:
-            print_color("Some error occured!",fg="red",style="bold", notify=2)
+            print_color(f"'{git_path}' Some error occured!",fg="red",style="bold", notify=2)
     else:
         print_color("Not a git repo!",fg="orange",style="bold", notify=2)
 
