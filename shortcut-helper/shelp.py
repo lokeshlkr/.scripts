@@ -45,6 +45,7 @@ colors = {
 ################################################
 editor = "codium"
 browser = "firefox"
+terminal = "alacritty"
 home = os.path.expanduser("~")
 commands={
     'help':'Show this help message',
@@ -62,6 +63,12 @@ paths = {
     'home' : home,
     'rust' : f'{home}/working_folder/rust/practice',
     'self' : f'{home}/working_folder/.scripts',
+}
+mappings = {
+    't':terminal,
+    'terminal':terminal,
+    'b':browser,
+    'browser':browser,
 }
 ################################################
 ################################################
@@ -190,11 +197,15 @@ if(len(sys.argv) == 1):
 else:
     command = sys.argv[1]
     rest = " ".join(sys.argv[2:])
-    if(command not in commands):
-        print_color("\n[✘]Error: Given command is not valid.",fg="red",style="bold")
-        help()
+    given = command + " " + rest
+    a = locals().get(command, None)
+    b = mappings.get(command,None)
+    if a:
+        a()
+    elif b:
+        run(b)
     else:
-        locals()[command]()
+        run(f"{terminal} --command {given} &")
 ################################################
 ################################################
 ################################################
