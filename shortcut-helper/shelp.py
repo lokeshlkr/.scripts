@@ -173,12 +173,18 @@ def restart():
     if len(rest.strip()) == 0:
         print_color("Provide a program to restart.",fg="red")
     else:
+        r=0
         x = run(f'killall {rest}')
         if(not x):
-            run(rest)
+            r = run(rest)
         else:
-            sleep(0.2)
-            run(rest)
+            sleep(0.5)
+            r = run(rest)
+        if r:
+            print_color(f"'{rest}' Failed to start!", notify=2)
+        else:
+            print_color(f"'{rest}' restarted!", notify=2)
+
 
 
 ################################################
