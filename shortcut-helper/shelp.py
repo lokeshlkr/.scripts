@@ -88,7 +88,7 @@ def print_color(text,fg="",bg="",style="",end="\n", notify=0):
         formatted_mesasge = f"{fg}{style}{bg}{text}{reset}"
         print(formatted_mesasge,end=end)
     if notify > 0:
-        timeout = "-t 0" if len(text) > 100 else "-t 5000"
+        timeout = "-t 0" if len(text) > 100 else ""
         run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
 
 def is_git_repo():
