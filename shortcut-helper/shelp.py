@@ -261,6 +261,10 @@ def testing():
 ################################################
 #################### INIT ######################
 ################################################
+
+# TODO
+# Instead of making `rest` a string with spaces
+# leave it as a list
 if __name__ == '__main__':
     if(len(sys.argv) == 1):
         notify("\n[✘] Error: No command provided.",fg="red",style="bold")
