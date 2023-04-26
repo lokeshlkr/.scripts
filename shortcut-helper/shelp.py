@@ -64,7 +64,8 @@ commands={
     'edit':f'Open some basic locations in {editor}',
     'restart':'Restart any program',
     'gui':'show dialog box to capture a command',
-    'iresize':'Resizes image to given size'
+    'iresize':'Resizes image to given size',
+    'iresize_inplace':'Resizes image to given size, without backing up',
 }
 paths = {
     'home' : home,
@@ -86,9 +87,11 @@ command = rest = ""
 def run(command):
     return os.system(command) == 0
 
-def execute(command):
+def zenity(command):
     x = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    return x.communicate()
+    (stdout,error) = x.communicate()
+    res = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
+    return res
 
 def notify(text,fg="",bg="",style="",end="\n", level=Level.TERMINAL):
     if notify in (Level.TERMINAL,Level.BOTH):
@@ -195,31 +198,64 @@ def restart():
         else:
             notify(f"'{rest}' failed to start!", level=Level.BOTH)
 
-def iresize():
-    path = os.path.normpath(rest)
-    if rest.strip() and os.path.isfile(path) and not os.path.islink(path):
-        (stdout, stderr) = execute("zenity --entry --text='Enter new size as widthxheight:'")
-        size = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
-        ext = path.split(".")[-1]
-        oldname = f'{rest[:-(len(ext)+1)]}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.{ext}'
-        newname = path
+def _resize(path,size, inplace=False):
+    if not os.path.isfile(path):
+        notify(f"'{path}' Invalid file path!",fg="red",style="bold",level=Level.BOTH)
+        return False
+    ext = path.split(".")[-1]
+    oldname = f'{path[:-(len(ext)+1)]}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.{ext}'
+    newname = path
+    if not inplace:
         if not run(f'cp {path} {oldname}'):
-            notify(f"Error in backing up, Resizing with new name!",fg="red",style="bold",level=Level.BOTH)
-            newname = path+size
-        if run(f'convert {path} -resize {size} {newname}'):
-            notify(f"Resize completed!",fg="green",style="bold",level=Level.BOTH)
-        else:
-            notify(f"Some error occured while resizing!",fg="red",style="bold",level=Level.BOTH)
-
+            newname += size
+    if run(f'convert {path} -resize {size} {newname}'):
+        return True
     else:
-        notify(f"'{rest}' Invalid file path!",fg="red",style="bold",level=Level.BOTH)
+        notify(f"'{path}' Could not resize!",fg="red",style="bold",level=Level.BOTH)
+        return False
+
+
+def iresize():
+    paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
+    size = zenity("zenity --title='Shelp' --entry --text='Enter new size as widthxheight:'")
+    success = 0
+    for path in paths:
+        if os.path.isfile(path) and not os.path.islink(path):
+            if _resize(path, size):
+                success += 1
+
+def iresize_inplace():
+    paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
+    size = zenity("zenity --title='Shelp' --entry --text='Enter new size as widthxheight:'")
+    success = 0
+    for path in paths:
+        if os.path.isfile(path) and not os.path.islink(path):
+            if _resize(path, size, inplace=True):
+                success += 1
+
+def doit(command):
+    knownCommand = globals().get(command, None)
+    knownMapping = mappings.get(command,None)
+    if knownCommand:
+        knownCommand()
+    elif knownMapping:
+        run(knownMapping)
+    else:
+        notify(f"{rest} Unknown command!",fg="red",style="bold", level=Level.BOTH)
 
 def gui():
-    run('killall zenity')
-    (stdout, stderr) = execute("zenity --entry --text='Enter a shelp command:'")
-    command = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
-    if command: run(f's {command}')
+    global rest
+    if run('killall zenity'):
+        return
+    output = zenity("zenity --title='Shelp' --entry --text='Enter a shelp command:'")
+    output = output.split(" ")
+    command = output[0]
+    rest = " ".join(output[1:])
+    if command: doit(command)
 
+
+def testing():
+    run(f'echo {sys.argv[2:]} > ~/echo.txt')
 ################################################
 #################### INIT ######################
 ################################################
@@ -230,15 +266,7 @@ if __name__ == '__main__':
     else:
         command = sys.argv[1]
         rest = " ".join(sys.argv[2:])
-        given = command + " " + rest
-        a = locals().get(command, None)
-        b = mappings.get(command,None)
-        if a:
-            a()
-        elif b:
-            run(b)
-        else:
-            run(f"{terminal} --command {given} &")
+        doit(command)
 ################################################
 ################################################
 ################################################
