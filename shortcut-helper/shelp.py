@@ -185,27 +185,28 @@ def gui():
     run('killall zenity')
     x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
     (command, error) = x.communicate()
-    command = str(command)[2:-3] # slicing to get rid of auotes and new line character
+    command = str(command)[2:-3] # slicing to get rid of quotes and new line character
     if command: run(f's {command}')
 
 ################################################
 #################### INIT ######################
 ################################################
-if(len(sys.argv) == 1):
-    print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
-    help()
-else:
-    command = sys.argv[1]
-    rest = " ".join(sys.argv[2:])
-    given = command + " " + rest
-    a = locals().get(command, None)
-    b = mappings.get(command,None)
-    if a:
-        a()
-    elif b:
-        run(b)
+if __name__ == '__main__':
+    if(len(sys.argv) == 1):
+        print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
+        help()
     else:
-        run(f"{terminal} --command {given} &")
+        command = sys.argv[1]
+        rest = " ".join(sys.argv[2:])
+        given = command + " " + rest
+        a = locals().get(command, None)
+        b = mappings.get(command,None)
+        if a:
+            a()
+        elif b:
+            run(b)
+        else:
+            run(f"{terminal} --command {given} &")
 ################################################
 ################################################
 ################################################
