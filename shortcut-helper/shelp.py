@@ -44,7 +44,7 @@ colors = {
 editor = "codium"
 browser = "firefox"
 terminal = "alacritty"
-home = os.path.expanduser("~")
+home = os.path.normpath("~")
 commands={
     'help':'Show this help message',
     'search':f'Search a text in {browser} in duckduckgo',
@@ -87,9 +87,10 @@ def print_color(text,fg="",bg="",style="",end="\n", notify=0):
         timeout = "-t 0" if len(text) > 100 else ""
         run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
 
-def is_git_repo():
-    cwd = os.getcwd()
-    cwd = cwd.split('/')[1:]
+def is_git_repo(path):
+    if path == '.':
+        path = os.getcwd()
+    cwd = path.split('/')[1:]
     isGitRepo = False
     l = len(cwd)
     for i in range(l):
@@ -119,16 +120,20 @@ def browse():
     run(command) 
 
 def sync():
-    git_path = is_git_repo()
+    path = os.path.normpath(rest)
+    if not os.path.exists(path):
+        print_color(f"'{path}' Not a valid path",fg="red",style="bold", notify=2)
+        return
+    git_path = is_git_repo(path)
     if git_path != None:
         os.chdir(git_path)
-        command = f'git add . && git commit -m "autosync: {rest}" && git push origin master'
+        command = f'git add --all && git commit -m "autosync" && git push origin master'
         if run(command):
             print_color(f"'{git_path}' Synced Successfully!",fg="green",style="bold", notify=2)
         else:
             print_color(f"'{git_path}' Some error occured!",fg="red",style="bold", notify=2)
     else:
-        print_color("Not a git repo!",fg="orange",style="bold", notify=2)
+        print_color("Not a git repo!",fg="red",style="bold", notify=2)
 
 def panel():
     file = f'{home}/working_folder/.scripts/panel/{rest}'
