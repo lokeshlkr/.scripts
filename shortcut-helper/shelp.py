@@ -83,7 +83,7 @@ def execute(command):
     x = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     return x.communicate()
 
-def print_color(text,fg="",bg="",style="",end="\n", notify=0):
+def notify(text,fg="",bg="",style="",end="\n", level=0):
     if notify in (0,2):
         fg = colors["fg"].get(fg.lower(),"")
         bg = colors["bg"].get(bg.lower(),"")
@@ -108,14 +108,14 @@ def is_git_repo(path):
             return path
 
 def help():
-    print_color("\nAvailable Commands:",fg="blue")
+    notify("\nAvailable Commands:",fg="blue")
     text = "Available Commands:\n"
     for command in commands:
         text += "○ "+command.ljust(10," ")
         text += "- "+commands[command] + "\n"
-        print_color("○ "+command.ljust(10," "),style="bold",end="")
-        print_color("- "+commands[command])
-    print_color(text,notify=1)
+        notify("○ "+command.ljust(10," "),style="bold",end="")
+        notify("- "+commands[command])
+    notify(text,level=1)
     print()
 
 def search():
@@ -131,18 +131,18 @@ def sync():
     path = paths.get(rest,rest)
     path = os.path.normpath(path)
     if not os.path.exists(path):
-        print_color(f"'{path}' Not a valid path",fg="red",style="bold", notify=2)
+        notify(f"'{path}' Not a valid path",fg="red",style="bold", level=2)
         return
     git_path = is_git_repo(path)
     if git_path != None:
         os.chdir(git_path)
         command = f'git add --all && git commit -m "autosync" && git push origin master'
         if run(command):
-            print_color(f"'{git_path}' Synced Successfully!",fg="green",style="bold", notify=2)
+            notify(f"'{git_path}' Synced Successfully!",fg="green",style="bold", level=2)
         else:
-            print_color(f"'{git_path}' Some error occured!",fg="red",style="bold", notify=2)
+            notify(f"'{git_path}' Some error occured!",fg="red",style="bold", level=2)
     else:
-        print_color("Not a git repo!",fg="red",style="bold", notify=2) 
+        notify("Not a git repo!",fg="red",style="bold", level=2) 
 
 def panel():
     file = f'{home}/working_folder/.scripts/panel/{rest}'
@@ -159,7 +159,7 @@ def rustnew():
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
     run('cargo new practice')
     if not openineditor(paths['rust']):
-        print_color("Something went wrong, new practice project could not be created.",fg="red",style="bold",notify=2)
+        notify("Something went wrong, new practice project could not be created.",fg="red",style="bold",level=2)
 
 def rust():
     if not openineditor(paths['rust']):
@@ -170,11 +170,11 @@ def edit():
     if path:
         openineditor(path)
     else:
-        print_color(f"Folder name '{rest}' not configured",fg="orange",style="bold",notify=2)
+        notify(f"Folder name '{rest}' not configured",fg="orange",style="bold",level=2)
 
 def restart():
     if len(rest.strip()) == 0:
-        print_color("Provide a program to restart.",fg="red")
+        notify("Provide a program to restart.",fg="red")
     else:
         r=0
         x = run(f'killall {rest}')
@@ -184,9 +184,9 @@ def restart():
             sleep(0.5)
             r = run(f'{rest} &')
         if r:
-            print_color(f"'{rest}' restarted!", notify=2)
+            notify(f"'{rest}' restarted!", level=2)
         else:
-            print_color(f"'{rest}' failed to start!", notify=2)
+            notify(f"'{rest}' failed to start!", level=2)
 
 def iresize():
     path = os.path.normpath(rest)
@@ -197,15 +197,15 @@ def iresize():
         oldname = f'{rest[:-(len(ext)+1)]}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.{ext}'
         newname = path
         if not run(f'cp {path} {oldname}'):
-            print_color(f"Error in backing up, Resizing with new name!",fg="red",style="bold",notify=2)
+            notify(f"Error in backing up, Resizing with new name!",fg="red",style="bold",level=2)
             newname = path+size
         if run(f'convert {path} -resize {size} {newname}'):
-            print_color(f"Resize completed!",fg="green",style="bold",notify=2)
+            notify(f"Resize completed!",fg="green",style="bold",level=2)
         else:
-            print_color(f"Some error occured while resizing!",fg="red",style="bold",notify=2)
+            notify(f"Some error occured while resizing!",fg="red",style="bold",level=2)
 
     else:
-        print_color(f"'{rest}' Invalid file path!",fg="red",style="bold",notify=2)
+        notify(f"'{rest}' Invalid file path!",fg="red",style="bold",level=2)
 
 def gui():
     run('killall zenity')
@@ -218,7 +218,7 @@ def gui():
 ################################################
 if __name__ == '__main__':
     if(len(sys.argv) == 1):
-        print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
+        notify("\n[✘] Error: No command provided.",fg="red",style="bold")
         help()
     else:
         command = sys.argv[1]
