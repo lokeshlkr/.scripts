@@ -8,7 +8,7 @@ sudo pacman -Syy
 sudo pacman -S archlinux-keyring
 sudo pacman -Syu
 sudo pacman -S redshift sxhkd xfce4-genmon-plugin rofi alacritty paru 
-paru -S vscodium gnome-keyring zenity xmodmap
+paru -S vscodium gnome-keyring zenity xmodmap imagemagick
 
 echo "" >> ~/.bashrc
 echo "source ~/working_folder/.scripts/configs/bash_extras.sh" >> ~/.bashrc

@@ -44,7 +44,7 @@ colors = {
 editor = "codium"
 browser = "firefox"
 terminal = "alacritty"
-home = os.path.normpath("~")
+home = os.path.expanduser("~")
 commands={
     'help':'Show this help message',
     'search':f'Search a text in {browser} in duckduckgo',
@@ -55,12 +55,14 @@ commands={
     'rustnew':f'Create new rust project and open in {editor}',
     'edit':f'Open some basic locations in {editor}',
     'restart':'Restart any program',
-    'gui':'show dialog box to capture a command'
+    'gui':'show dialog box to capture a command',
+    'iresize':'Resizes image to given size'
 }
 paths = {
     'home' : home,
     'rust' : f'{home}/working_folder/rust/practice',
     'self' : f'{home}/working_folder/.scripts',
+    ''     : f'{home}/working_folder/.scripts',
 }
 mappings = {
     't':terminal,
@@ -72,8 +74,13 @@ mappings = {
 filename = sys.argv[0]
 command = rest = ""
 
+
 def run(command):
     return os.system(command) == 0
+
+def execute(command):
+    x = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    return x.communicate()
 
 def print_color(text,fg="",bg="",style="",end="\n", notify=0):
     if notify in (0,2):
@@ -120,7 +127,8 @@ def browse():
     run(command) 
 
 def sync():
-    path = os.path.normpath(rest)
+    path = paths.get(rest,rest)
+    path = os.path.normpath(path)
     if not os.path.exists(path):
         print_color(f"'{path}' Not a valid path",fg="red",style="bold", notify=2)
         return
@@ -181,11 +189,19 @@ def restart():
         else:
             print_color(f"'{rest}' failed to start!", notify=2)
 
+def iresize():
+    path = os.path.normpath(rest)
+    if rest.strip() and os.path.isfile(path) and not os.path.islink(path):
+        (stdout, stderr) = execute("zenity --entry --text='Enter new size as widthxheight:'")
+        size = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
+        x = run(f'convert {path} -resize {size} {path}_size')
+    else:
+        print_color(f"'{rest}' Invalid path!",fg="red",style="bold",notify=2)
+
 def gui():
     run('killall zenity')
-    x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
-    (command, error) = x.communicate()
-    command = str(command)[2:-3] # slicing to get rid of quotes and new line character
+    (stdout, stderr) = execute("zenity --entry --text='Enter a shelp command:'")
+    command = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
     if command: run(f's {command}')
 
 ################################################
