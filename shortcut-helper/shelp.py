@@ -3,7 +3,14 @@
 import sys,os,ast,subprocess
 import datetime
 from time import sleep
+from enum import Enum
 #################### SETUP #####################
+
+class Level(Enum):
+    TERMINAL = 0
+    NOTIFICATION = 1
+    BOTH = 2
+
 colors = {
     "style" : {
         'reset' : '\033[0m',
@@ -83,15 +90,15 @@ def execute(command):
     x = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     return x.communicate()
 
-def notify(text,fg="",bg="",style="",end="\n", level=0):
-    if notify in (0,2):
+def notify(text,fg="",bg="",style="",end="\n", level=Level.TERMINAL):
+    if notify in (Level.TERMINAL,Level.BOTH):
         fg = colors["fg"].get(fg.lower(),"")
         bg = colors["bg"].get(bg.lower(),"")
         style = colors["style"].get(style.lower(),"")
         reset = colors["style"]['reset']
         formatted_mesasge = f"{fg}{style}{bg}{text}{reset}"
         print(formatted_mesasge,end=end)
-    if level > 0:
+    if level > Level.TERMINAL:
         timeout = "-t 0" if len(text) > 100 else ""
         run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
 
@@ -115,7 +122,7 @@ def help():
         text += "- "+commands[command] + "\n"
         notify("○ "+command.ljust(10," "),style="bold",end="")
         notify("- "+commands[command])
-    notify(text,level=1)
+    notify(text,level=Level.NOTIFICATION)
     print()
 
 def search():
@@ -131,18 +138,18 @@ def sync():
     path = paths.get(rest,rest)
     path = os.path.normpath(path)
     if not os.path.exists(path):
-        notify(f"'{path}' Not a valid path",fg="red",style="bold", level=2)
+        notify(f"'{path}' Not a valid path",fg="red",style="bold", level=Level.BOTH)
         return
     git_path = is_git_repo(path)
     if git_path != None:
         os.chdir(git_path)
         command = f'git add --all && git commit -m "autosync" && git push origin master'
         if run(command):
-            notify(f"'{git_path}' Synced Successfully!",fg="green",style="bold", level=2)
+            notify(f"'{git_path}' Synced Successfully!",fg="green",style="bold", level=Level.BOTH)
         else:
-            notify(f"'{git_path}' Some error occured!",fg="red",style="bold", level=2)
+            notify(f"'{git_path}' Some error occured!",fg="red",style="bold", level=Level.BOTH)
     else:
-        notify("Not a git repo!",fg="red",style="bold", level=2) 
+        notify("Not a git repo!",fg="red",style="bold", level=Level.BOTH) 
 
 def panel():
     file = f'{home}/working_folder/.scripts/panel/{rest}'
@@ -159,7 +166,7 @@ def rustnew():
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
     run('cargo new practice')
     if not openineditor(paths['rust']):
-        notify("Something went wrong, new practice project could not be created.",fg="red",style="bold",level=2)
+        notify("Something went wrong, new practice project could not be created.",fg="red",style="bold",level=Level.BOTH)
 
 def rust():
     if not openineditor(paths['rust']):
@@ -170,7 +177,7 @@ def edit():
     if path:
         openineditor(path)
     else:
-        notify(f"Folder name '{rest}' not configured",fg="orange",style="bold",level=2)
+        notify(f"Folder name '{rest}' not configured",fg="orange",style="bold",level=Level.BOTH)
 
 def restart():
     if len(rest.strip()) == 0:
@@ -184,9 +191,9 @@ def restart():
             sleep(0.5)
             r = run(f'{rest} &')
         if r:
-            notify(f"'{rest}' restarted!", level=2)
+            notify(f"'{rest}' restarted!", level=Level.BOTH)
         else:
-            notify(f"'{rest}' failed to start!", level=2)
+            notify(f"'{rest}' failed to start!", level=Level.BOTH)
 
 def iresize():
     path = os.path.normpath(rest)
@@ -197,15 +204,15 @@ def iresize():
         oldname = f'{rest[:-(len(ext)+1)]}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.{ext}'
         newname = path
         if not run(f'cp {path} {oldname}'):
-            notify(f"Error in backing up, Resizing with new name!",fg="red",style="bold",level=2)
+            notify(f"Error in backing up, Resizing with new name!",fg="red",style="bold",level=Level.BOTH)
             newname = path+size
         if run(f'convert {path} -resize {size} {newname}'):
-            notify(f"Resize completed!",fg="green",style="bold",level=2)
+            notify(f"Resize completed!",fg="green",style="bold",level=Level.BOTH)
         else:
-            notify(f"Some error occured while resizing!",fg="red",style="bold",level=2)
+            notify(f"Some error occured while resizing!",fg="red",style="bold",level=Level.BOTH)
 
     else:
-        notify(f"'{rest}' Invalid file path!",fg="red",style="bold",level=2)
+        notify(f"'{rest}' Invalid file path!",fg="red",style="bold",level=Level.BOTH)
 
 def gui():
     run('killall zenity')
