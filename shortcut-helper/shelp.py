@@ -133,7 +133,7 @@ def sync():
         else:
             print_color(f"'{git_path}' Some error occured!",fg="red",style="bold", notify=2)
     else:
-        print_color("Not a git repo!",fg="red",style="bold", notify=2)
+        print_color("Not a git repo!",fg="red",style="bold", notify=2) 
 
 def panel():
     file = f'{home}/working_folder/.scripts/panel/{rest}'
