@@ -91,7 +91,7 @@ def notify(text,fg="",bg="",style="",end="\n", level=0):
         reset = colors["style"]['reset']
         formatted_mesasge = f"{fg}{style}{bg}{text}{reset}"
         print(formatted_mesasge,end=end)
-    if notify > 0:
+    if level > 0:
         timeout = "-t 0" if len(text) > 100 else ""
         run(f'notify-send ShortcutHelper "<span font-family=\'Stranger Nerd Font Mono\'>{text}</span>" -i keyboard {timeout}')
 
