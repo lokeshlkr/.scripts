@@ -1,6 +1,7 @@
 #! /usr/bin/python
 
 import sys,os,ast,subprocess
+import datetime
 from time import sleep
 #################### SETUP #####################
 colors = {
@@ -165,13 +166,11 @@ def rust():
         rustnew()
 
 def edit():
-    match rest.strip():
-        case "":
-            openineditor(paths['self'])
-        case "home":
-            openineditor(paths['home'])
-        case _:
-            print_color(f"Folder name not configured.\nCheck spelling or add it in script.",fg="orange",style="bold",notify=2)
+    path = paths.get(rest.strip(),None)
+    if path:
+        openineditor(path)
+    else:
+        print_color(f"Folder name '{rest}' not configured",fg="orange",style="bold",notify=2)
 
 def restart():
     if len(rest.strip()) == 0:
@@ -194,9 +193,19 @@ def iresize():
     if rest.strip() and os.path.isfile(path) and not os.path.islink(path):
         (stdout, stderr) = execute("zenity --entry --text='Enter new size as widthxheight:'")
         size = str(stdout)[2:-3].strip() # slicing to get rid of quotes and new line character
-        x = run(f'convert {path} -resize {size} {path}_size')
+        ext = path.split(".")[-1]
+        oldname = f'{rest[:-(len(ext)+1)]}_{datetime.datetime.now().strftime("%Y%m%dT%H%M%S")}.{ext}'
+        newname = path
+        if not run(f'cp {path} {oldname}'):
+            print_color(f"Error in backing up, Resizing with new name!",fg="red",style="bold",notify=2)
+            newname = path+size
+        if run(f'convert {path} -resize {size} {newname}'):
+            print_color(f"Resize completed!",fg="green",style="bold",notify=2)
+        else:
+            print_color(f"Some error occured while resizing!",fg="red",style="bold",notify=2)
+
     else:
-        print_color(f"'{rest}' Invalid path!",fg="red",style="bold",notify=2)
+        print_color(f"'{rest}' Invalid file path!",fg="red",style="bold",notify=2)
 
 def gui():
     run('killall zenity')
