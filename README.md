@@ -16,6 +16,7 @@ The usage for this is very personal and nuanced, explaining things will involve 
 You can most learn a lot of usage from `setup_new_install.sh` file under `autostart`.
 After that most of the directory names are self explanatory.
 Undestanding `shelp.py` will require you to read the code in it.
+
 ---
 
 Pull requests for improvements are always welcome.
