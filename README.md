@@ -12,10 +12,11 @@ This is developed on following platform, any deviations might need rewrite or po
 - Editor: VSCodium
 
 # Usage
-The usage for this is very personal and nuanced, explaining things will involve basically exaplining each line of code. So ommiting that, you can email me if you have anything specific. 
-You can most learn a lot of usage from `setup_new_install.sh` file under `autostart`.
-After that most of the directory names are self explanatory.
-Undestanding `shelp.py` will require you to read the code in it.
+- The usage for this is very personal and nuanced, explaining things will involve basically decoding each line of code so ommiting that.
+- You can most learn a lot of usage from `setup_new_install.sh` file under `autostart`.
+- After that most of the directory names are self explanatory.
+- Undestanding `shelp.py` will require you to read the code in it.
+- You can email me if you have anything specific to ask. 
 
 ---
 
