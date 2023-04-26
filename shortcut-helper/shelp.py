@@ -1,5 +1,7 @@
 #! /usr/bin/python
 
+# SHORTCUT HELPER #
+
 import sys,os,ast,subprocess
 import datetime
 from time import sleep
