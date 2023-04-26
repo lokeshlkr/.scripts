@@ -24,10 +24,10 @@ if [[ connected -eq "0" ]]; then
 fi
 
 # added so as to recover from a corrupt run
-# where the netlog file is written in 
+# where the t2_netlog file is written in 
 # improper format
-if [[ $(wc /tmp/netlog | awk '{print $2}') < 3 ]] ; then
-	rm /tmp/netlog
+if [[ $(wc /tmp/t2_netlog | awk '{print $2}') < 3 ]] ; then
+	rm /tmp/t2_netlog
 fi
 
 now=$(date +"%s%N")
@@ -35,15 +35,15 @@ crx=$(cat "/sys/class/net/$interface/statistics/rx_bytes")
 ctx=$(cat "/sys/class/net/$interface/statistics/tx_bytes")
 
 # Handle condition when the script is run for first time
-test -f /tmp/netlog
+test -f /tmp/t2_netlog
 if [ $? -ne "0" ]; then
-	printf "$now $crx $ctx" > /tmp/netlog
+	printf "$now $crx $ctx" > /tmp/t2_netlog
 	echo First Run
 	exit
 fi
 
-netlog=$(cat /tmp/netlog)
-olddata=($netlog)
+t2_netlog=$(cat /tmp/t2_netlog)
+olddata=($t2_netlog)
 
 dt=$(($now - ${olddata[0]}))
 drx=$(($crx - ${olddata[1]}))
@@ -52,8 +52,5 @@ dtx=$(($ctx - ${olddata[2]}))
 rx=$(( ($drx * 1000000000) / ($dt * 1024) ))
 tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
-printf "$now $crx $ctx" > /tmp/netlog
-printf "% 5d-% 5d" $tx $rx 
-text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
-printf "<txt>$text</txt>\n" $tx $rx 
-printf "<tool>Bandwidth on interface <b>$interface</b></tool>" 
+printf "$now $crx $ctx" > /tmp/t2_netlog
+printf "% 5d ↑ \n% 5d ↓ " $tx $rx 

@@ -11,8 +11,8 @@ sudo pacman -S redshift sxhkd xfce4-genmon-plugin rofi alacritty paru
 paru -S vscodium gnome-keyring zenity
 
 
-sudo cp ~/working_folder/.scripts/fonts/StragerMonoNF/* /usr/share/fonts/
-sudo cp ~/working_folder/.scripts/fonts/StragerSansNF/* /usr/share/fonts/
+sudo cp ~/working_folder/.scripts/fonts/StrangerMonoNF/* /usr/share/fonts/
+sudo cp ~/working_folder/.scripts/fonts/StrangerSansNF/* /usr/share/fonts/
 
 mkdir ~/.config
 mkdir ~/.config/sxhkd

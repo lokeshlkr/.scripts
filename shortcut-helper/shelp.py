@@ -2,6 +2,7 @@
 
 import sys,os,ast,subprocess
 from time import sleep
+#################### SETUP #####################
 colors = {
     "style" : {
         'reset' : '\033[0m',
@@ -40,9 +41,6 @@ colors = {
         'lightgrey' : '\033[47m',
     }
 }
-################################################
-#################### SETUP #####################
-################################################
 editor = "codium"
 browser = "firefox"
 terminal = "alacritty"
@@ -70,12 +68,10 @@ mappings = {
     'b':browser,
     'browser':browser,
 }
-################################################
-################################################
-################################################
 
 filename = sys.argv[0]
 command = rest = ""
+
 def run(command):
     return os.system(command) == 0
 
@@ -101,9 +97,6 @@ def is_git_repo():
         dirs = os.listdir(path)
         if '.git' in dirs:
             return path
-################################################
-################################################
-################################################
 
 def help():
     print_color("\nAvailable Commands:",fg="blue")
@@ -147,7 +140,6 @@ def openineditor(path):
         return True
     return False
 
-
 def rustnew():
     os.chdir(f'{paths["rust"]}/..')
     run('mv practice "practice_$(date +%Y%m%d_%H%M%S)"')
@@ -168,7 +160,6 @@ def edit():
         case _:
             print_color(f"Folder name not configured.\nCheck spelling or add it in script.",fg="orange",style="bold",notify=2)
 
-
 def restart():
     if len(rest.strip()) == 0:
         print_color("Provide a program to restart.",fg="red")
@@ -176,27 +167,25 @@ def restart():
         r=0
         x = run(f'killall {rest}')
         if(not x):
-            r = run(rest)
+            r = run(f'{rest} &')
         else:
             sleep(0.5)
-            r = run(rest)
+            r = run(f'{rest} &')
         if r:
-            print_color(f"'{rest}' Failed to start!", notify=2)
-        else:
             print_color(f"'{rest}' restarted!", notify=2)
+        else:
+            print_color(f"'{rest}' failed to start!", notify=2)
 
-
+def gui():
+    run('killall zenity')
+    x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
+    (command, error) = x.communicate()
+    command = str(command)[2:-3] # slicing to get rid of auotes and new line character
+    if command: run(f's {command}')
 
 ################################################
 #################### INIT ######################
 ################################################
-
-def gui():
-    x = subprocess.Popen("zenity --entry --text='Enter a shelp command:'",shell=True,stdout=subprocess.PIPE)
-    (command, error) = x.communicate()
-    command = str(command)[2:-3] # to get rid of auotes and new line character
-    run(f's {command}')
-
 if(len(sys.argv) == 1):
     print_color("\n[✘] Error: No command provided.",fg="red",style="bold")
     help()

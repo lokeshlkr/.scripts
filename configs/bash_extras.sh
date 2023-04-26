@@ -11,3 +11,6 @@ alias install='paru -S'
 alias remove='paru -Rns'
 alias update='paru -Syyu'
 alias exe='chmod +x'
+
+xmodmap -e 'clear lock'
+xmodmap -e 'keycode 66 = F35'
