@@ -45,6 +45,6 @@ def paste():
     
 if __name__ == "__main__":
     command = sys.argv[1]
-    x = locals().get(command, None)
+    x = locals().get(command, None) 
     if x:
         x()
