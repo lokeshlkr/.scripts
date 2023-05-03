@@ -29,3 +29,4 @@ ln ~/working_folder/.scripts/configs/rofi-theme.rasi ~/.config/rofi/rofi-theme.r
 
 
 sudo ln ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s
+sudo ln ~/working_folder/.scripts/shortcut-helper/dmenu_run.sh /usr/bin/dmr

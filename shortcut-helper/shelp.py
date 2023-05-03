@@ -216,6 +216,8 @@ def _resize(path,size, inplace=False):
         notify(f"'{path}' Could not resize!",fg="red",style="bold",level=Level.BOTH)
         return False
 
+def clipmenu():
+    run(f"CM_LAUNCHER=rofi clipmenu")
 
 def iresize():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
@@ -236,8 +238,8 @@ def iresize_inplace():
                 success += 1
 
 def doit(command):
-    knownCommand = globals().get(command, None)
-    knownMapping = mappings.get(command,None)
+    knownCommand = globals().get(command.lower(), None)
+    knownMapping = mappings.get(command.lower(),None)
     if knownCommand:
         knownCommand()
     elif knownMapping:

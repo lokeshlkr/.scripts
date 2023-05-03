@@ -1,8 +1,9 @@
 super + {Return,r,w,g,e,l,t}
     {alacritty,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
 
-super + {shift + r}
-    {s restart sxhkd}
+super + {1,shift + r}
+    {clipmenu,s restart sxhkd}
 
 F35
     {s gui}
+
