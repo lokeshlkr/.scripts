@@ -1,9 +1,14 @@
+# re-mapped super key by itself
+F34
+    {s gui}
+
 super + {Return,r,w,g,e,l,t}
     {alacritty,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
 
-super + {1,shift + r}
-    {clipmenu,s restart sxhkd}
+super + {shift + r}
+    {s restart sxhkd}
 
+# re-mapped capslock key
 F35
     {s gui}
 
