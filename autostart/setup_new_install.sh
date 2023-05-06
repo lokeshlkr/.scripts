@@ -27,6 +27,9 @@ mkdir -p ~/.config/rofi
 ln ~/working_folder/.scripts/configs/config.rasi ~/.config/rofi/config.rasi
 ln ~/working_folder/.scripts/configs/rofi-theme.rasi ~/.config/rofi/rofi-theme.rasi
 
+mkdir -p ~/.themes
+mkdir -p ~/.icons
+cp ~/working_folder/.scripts/xfce/.themes/* ~/.themes
+cp ~/working_folder/.scripts/xfce/.icons/* ~/.icons
 
 sudo ln ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s
-sudo ln ~/working_folder/.scripts/shortcut-helper/dmenu_run.sh /usr/bin/dmr
