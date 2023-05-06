@@ -8,5 +8,5 @@ xmodmap -e 'clear lock'
 xmodmap -e 'keycode 66 = F35' 
 ksuperkey -e 'Super_L=F34' -t 250
 
-clipmenud &
+~/working_folder/.scripts/shortcut-helper/clipmand.py &
 sxhkd &

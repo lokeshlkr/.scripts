@@ -216,8 +216,8 @@ def _resize(path,size, inplace=False):
         notify(f"'{path}' Could not resize!",fg="red",style="bold",level=Level.BOTH)
         return False
 
-def clipmenu():
-    run(f"CM_LAUNCHER=rofi clipmenu")
+def paste():
+    run(f"~/working_folder/.scripts/shortcut-helper/clipmanc.py")
 
 def iresize():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
