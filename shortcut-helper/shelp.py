@@ -217,7 +217,7 @@ def _resize(path,size, inplace=False):
         return False
 
 def paste():
-    run(f"~/working_folder/.scripts/shortcut-helper/clipmanc.py")
+    run(f"~/working_folder/.scripts/shortcut-helper/clipman_client.py")
 
 def iresize():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
