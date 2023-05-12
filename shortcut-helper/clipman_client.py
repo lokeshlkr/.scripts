@@ -12,7 +12,7 @@ def paste():
     presentable = clipboard.show()
     with open(clipman_buffer,'w') as f:
         f.write(presentable)
-    text = execute(f'cat {clipman_buffer} | rofi -dmenu -multi-select')
+    text = execute(f'cat {clipman_buffer} | dmenu -l 20')
     to_paste = clipboard.paste(get_indexes(text))
     with open(clipman_buffer,'w') as f:
         f.write(to_paste)

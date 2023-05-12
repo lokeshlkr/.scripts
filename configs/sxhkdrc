@@ -6,7 +6,7 @@ super + {Return,r,w,g,e,l,t}
     {alacritty,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
 
 super + {shift + r,1}
-    {s restart sxhkd,s paste}
+    {s refresh ,s paste}
 
 # re-mapped capslock key
 F35

@@ -6,6 +6,7 @@ clipman_capacity = 50
 presentable_line_length = 50
 
 
+
 def execute(command):
     x = subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     (stdout,error) = x.communicate()
@@ -64,6 +65,7 @@ class Clipboard():
         for i in ids:
             del self.clips[i]
         return res
+
     def show(self):
         items = [str(i) for i in self.clips]
         presentable = [str(i).rjust(self.padding,"0") + ": " + items[i] for i in range(len(items)-1,-1,-1)]

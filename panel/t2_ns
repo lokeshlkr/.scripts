@@ -53,4 +53,4 @@ rx=$(( ($drx * 1000000000) / ($dt * 1024) ))
 tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/t2_netlog
-printf "% 5d ↑ \n% 5d ↓ " $tx $rx 
+printf "%d ↑\n%d ↓" $tx $rx 
