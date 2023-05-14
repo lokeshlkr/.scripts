@@ -13,3 +13,12 @@ alias install='paru -S'
 alias remove='paru -Rns'
 alias update='paru -Syyu'
 alias exe='chmod +x'
+
+alias 'cd..'='cd ..'
+
+function mkcd(){
+    mkdir $1
+    cd $1
+}
+export -f mkcd
+
