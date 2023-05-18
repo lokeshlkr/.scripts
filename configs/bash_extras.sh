@@ -13,6 +13,7 @@ alias install='paru -S'
 alias remove='paru -Rns'
 alias update='paru -Syyu'
 alias exe='chmod +x'
+alias code='codium'
 
 alias 'cd..'='cd ..'
 
