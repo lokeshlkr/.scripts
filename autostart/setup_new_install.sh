@@ -1,7 +1,6 @@
 #! /usr/bin/sh
 
 # only for arch-based xfce distro
-
 # install stranger nerd fonts first
 
 sudo pacman -Syy                 # update all repositories
