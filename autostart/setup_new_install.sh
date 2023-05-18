@@ -7,8 +7,19 @@
 sudo pacman -Syy
 sudo pacman -S archlinux-keyring
 sudo pacman -Syu
-sudo pacman -S redshift sxhkd xfce4-genmon-plugin rofi alacritty paru 
-paru -S vscodium gnome-keyring zenity xmodmap imagemagick ksuperkey
+sudo pacman -S paru 
+paru -S redshift 
+paru -S sxhkd 
+paru -S xfce4-genmon-plugin 
+paru -S rofi 
+paru -S alacritty 
+paru -S vscodium 
+paru -S gnome-keyring 
+paru -S zenity 
+paru -S xmodmap 
+paru -S imagemagick 
+paru -S ksuperkey
+paru -S copyq
 
 echo "" >> ~/.bashrc
 echo "source ~/working_folder/.scripts/configs/bash_extras.sh" >> ~/.bashrc
@@ -16,6 +27,7 @@ source ~/.bashrc
 
 sudo cp ~/working_folder/.scripts/fonts/StrangerMonoNF/* /usr/share/fonts/
 sudo cp ~/working_folder/.scripts/fonts/StrangerSansNF/* /usr/share/fonts/
+sudo cp ~/working_folder/.scripts/fonts/GoogleSans/* /usr/share/fonts/
 
 mkdir -p ~/.config/sxhkd
 ln ~/working_folder/.scripts/configs/sxhkdrc ~/.config/sxhkd/sxhkdrc
