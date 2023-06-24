@@ -46,4 +46,4 @@ mkdir -p ~/.icons
 cp ~/working_folder/.scripts/xfce/.themes/* ~/.themes
 cp ~/working_folder/.scripts/xfce/.icons/* ~/.icons
 
-sudo ln -s ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s
+sudo ln -s ~/working_folder/.scripts/shortcut-helper/shelp.py /usr/bin/s 
