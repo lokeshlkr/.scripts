@@ -27,6 +27,8 @@ source ~/.bashrc
 sudo cp ~/working_folder/.scripts/fonts/StrangerMono/* /usr/share/fonts/
 sudo cp ~/working_folder/.scripts/fonts/StrangerSans/* /usr/share/fonts/
 sudo cp ~/working_folder/.scripts/fonts/GoogleSans/* /usr/share/fonts/
+sudo cp ~/working_folder/.scripts/fonts/JetBrainsMono/* /usr/share/fonts/
+sudo cp ~/working_folder/.scripts/fonts/Inter/* /usr/share/fonts/
 
 mkdir -p ~/.config/sxhkd
 ln -s ~/working_folder/.scripts/configs/sxhkdrc ~/.config/sxhkd/sxhkdrc
