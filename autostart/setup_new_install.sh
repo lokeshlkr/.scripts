@@ -18,7 +18,7 @@ paru -S zenity
 paru -S xmodmap 
 paru -S imagemagick 
 paru -S ksuperkey
-paru -S copyq
+paru -S copyq 
 
 echo "" >> ~/.bashrc
 echo "source ~/working_folder/.scripts/configs/bash_extras.sh" >> ~/.bashrc
