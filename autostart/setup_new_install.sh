@@ -34,7 +34,7 @@ mkdir -p ~/.config/sxhkd
 ln -s ~/working_folder/.scripts/configs/sxhkdrc ~/.config/sxhkd/sxhkdrc
 
 mkdir -p ~/.config/alacritty
-ln -s ~/working_folder/.scripts/configs/alacritty.yml ~/.config/alacritty/alacritty.yml
+ln -s ~/working_folder/.scripts/configs/alacritty.toml ~/.config/alacritty/alacritty.toml
 
 mkdir -p ~/.config/helix
 ln -s ~/working_folder/.scripts/configs/helix.toml ~/.config/helix/config.toml
