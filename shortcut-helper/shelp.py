@@ -184,21 +184,32 @@ def edit():
     else:
         notify(f"Folder name '{rest}' not configured",fg="orange",style="bold",level=Level.BOTH)
 
-def restart():
-    if len(rest.strip()) == 0:
+def restart(name=None, path=None):
+    if name == None:
+        name = rest
+    if path == None:
+        path = name
+    if len(rest.strip()) == 0 and name == None and path == None:
         notify("Provide a program to restart.",fg="red")
     else:
         r=0
-        x = run(f'killall {rest}')
+        x = run(f'killall {name}')
         if(not x):
-            r = run(f'{rest} &')
+            r = run(f'{path} &')
         else:
             sleep(0.5)
-            r = run(f'{rest} &')
+            r = run(f'{path} &')
         if r:
-            notify(f"'{rest}' restarted!", level=Level.BOTH)
+            notify(f"'{name}' restarted!", level=Level.BOTH)
         else:
-            notify(f"'{rest}' failed to start!", level=Level.BOTH)
+            notify(f"'{name}' failed to start!", level=Level.BOTH)
+
+def refresh():
+    restart(name="clipman_deamon.py",path="/home/astrofish/working_folder/.scripts/shortcut-helper/clipman_deamon.py")
+    restart(name="sxhkd")
+
+def autostart():
+    run(f"{paths['self']}/autostart/autostart.sh &")
 
 def _resize(path,size, inplace=False):
     if not os.path.isfile(path):
@@ -216,6 +227,8 @@ def _resize(path,size, inplace=False):
         notify(f"'{path}' Could not resize!",fg="red",style="bold",level=Level.BOTH)
         return False
 
+def paste():
+    run(f"{home}/working_folder/.scripts/shortcut-helper/clipman_client.py")
 
 def iresize():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
@@ -236,8 +249,8 @@ def iresize_inplace():
                 success += 1
 
 def doit(command):
-    knownCommand = globals().get(command, None)
-    knownMapping = mappings.get(command,None)
+    knownCommand = globals().get(command.lower(), None)
+    knownMapping = mappings.get(command.lower(),None)
     if knownCommand:
         knownCommand()
     elif knownMapping:

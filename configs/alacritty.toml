@@ -1,0 +1,18 @@
+[font]
+size = 8.0
+
+[font.bold]
+family = "StrangerMono"
+style = "Bold"
+
+[font.bold_italic]
+family = "StrangerMono"
+style = "Bold Italic"
+
+[font.italic]
+family = "StrangerMono"
+style = "Italic"
+
+[font.normal]
+family = "StrangerMono"
+style = "Regular"

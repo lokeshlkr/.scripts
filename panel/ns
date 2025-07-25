@@ -6,7 +6,7 @@
 
 interface=$1
 if [[ $interface -eq "" ]]; then 
-	interface="$(ifconfig | grep -iEo '^e[a-z0-9]+')"
+	interface="$(ifconfig | grep -iEo '^w[a-z0-9]+')"
 fi
 
 #wlp0s20f3 - wifi

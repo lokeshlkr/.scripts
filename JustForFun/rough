@@ -1,0 +1,37 @@
+escape_dict={\\'\\a\\':r\\'\\a\\',
+             \\'\\b\\':r\\'\\b\\',
+             \\'\\c\\':r\\'\\c\\',
+             \\'\\f\\':r\\'\\f\\',
+             \\'
+\\':r\\'
+\\',
+             \\'\\r\\':r\\'\\r\\',
+             \\'\\t\\':r\\'\\t\\',
+             \\'\\v\\':r\\'\\v\\',
+             \\'\\\\'\\':r\\'\\\\'\\',
+             \\'\\\"\\':r\\'\\\"\\'}
+
+def raw(text):
+    \"\"\"Returns a raw string representation of text\"\"\"
+    new_string=\\'\\'
+    for char in text:
+        try: 
+            new_string += escape_dict[char]
+        except KeyError: 
+            new_string += char
+    return new_string
+##==#==##
+system
+##==#==##
+selection
+##==#==##
+def paste():
+    presentable = clipboard.show()
+    with open(clipman_buffer,\'w\') as f:
+        f.write(presentable)
+    text = execute(f\'cat {clipman_buffer} | dmenu -l 20\')
+    to_paste = clipboard.paste(get_indexes(text))
+    with open(clipman_buffer,\'w\') as f:
+        f.write(to_paste)
+    os.system(f\'cat {clipman_buffer} | xclip -selection c\')
+##==#==##
