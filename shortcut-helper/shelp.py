@@ -167,7 +167,7 @@ def sync():
     git_path = is_git_repo(path)
     if git_path != None:
         os.chdir(git_path)
-        command = f'git add --all && git commit -m "autosync" && git push origin master'
+        command = 'git add --all && git commit -m "autosync" && git push origin master'
         if run(command):
             notify(
                 f"'{git_path}' Synced Successfully!",
