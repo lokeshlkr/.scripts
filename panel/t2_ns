@@ -5,7 +5,7 @@
 # cat /sys/class/net/ to see all available interfaces
 
 interface=$1
-if [[ $interface -eq "" ]]; then 
+if [[ $interface -eq "" ]]; then
 	interface="$(ifconfig | grep -iEo '^e[a-z0-9]+')"
 fi
 
@@ -24,7 +24,7 @@ if [[ connected -eq "0" ]]; then
 fi
 
 # added so as to recover from a corrupt run
-# where the t2_netlog file is written in 
+# where the t2_netlog file is written in
 # improper format
 if [[ $(wc /tmp/t2_netlog | awk '{print $2}') < 3 ]] ; then
 	rm /tmp/t2_netlog
@@ -53,4 +53,4 @@ rx=$(( ($drx * 1000000000) / ($dt * 1024) ))
 tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/t2_netlog
-printf "%d ↑\n%d ↓" $tx $rx 
+printf "%d ↑\n%d ↓" $tx $rx

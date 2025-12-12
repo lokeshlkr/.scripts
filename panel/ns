@@ -5,7 +5,7 @@
 # cat /sys/class/net/ to see all available interfaces
 
 interface=$1
-if [[ $interface -eq "" ]]; then 
+if [[ $interface == "" ]]; then
 	interface="$(ifconfig | grep -iEo '^w[a-z0-9]+')"
 fi
 
@@ -24,7 +24,7 @@ if [[ connected -eq "0" ]]; then
 fi
 
 # added so as to recover from a corrupt run
-# where the netlog file is written in 
+# where the netlog file is written in
 # improper format
 if [[ $(wc /tmp/netlog | awk '{print $2}') < 3 ]] ; then
 	rm /tmp/netlog
@@ -53,7 +53,7 @@ rx=$(( ($drx * 1000000000) / ($dt * 1024) ))
 tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
 printf "$now $crx $ctx" > /tmp/netlog
-printf "% 5d-% 5d" $tx $rx 
+printf "% 5d-% 5d" $tx $rx
 text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
-printf "<txt>$text</txt>\n" $tx $rx 
-printf "<tool>Bandwidth on interface <b>$interface</b></tool>" 
+printf "<txt>$text</txt>\n" $tx $rx
+printf "<tool>Bandwidth on interface <b>$interface</b></tool>"
