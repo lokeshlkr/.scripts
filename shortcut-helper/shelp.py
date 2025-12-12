@@ -126,7 +126,7 @@ def is_git_repo(path):
     if path == ".":
         path = os.getcwd()
     cwd = path.split("/")[1:]
-    # isGitRepo = False
+    isGitRepo = False
     l = len(cwd)
     for i in range(l):
         path = "/" + "/".join(cwd[: l - i])
