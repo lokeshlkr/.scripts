@@ -97,8 +97,12 @@ def run(command):
 
 
 def zenity(command):
+    program = "yad"
     x = subprocess.Popen(
-        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        program + " " + command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
     )
     (stdout, error) = x.communicate()
     res = str(stdout)[
@@ -165,7 +169,7 @@ def sync():
         notify(f"'{path}' Not a valid path", fg="red", style="bold", level=Level.BOTH)
         return
     git_path = is_git_repo(path)
-    if git_path != None:
+    if git_path is not None:
         os.chdir(git_path)
         command = 'git add --all && git commit -m "autosync" && git push origin master'
         if run(command):
@@ -285,9 +289,7 @@ def paste():
 
 def iresize():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
-    size = zenity(
-        "zenity --title='Shelp' --entry --text='Enter new size as widthxheight:'"
-    )
+    size = zenity("--title='Shelp' --entry --text='Enter new size as widthxheight:'")
     success = 0
     for path in paths:
         if os.path.isfile(path) and not os.path.islink(path):
@@ -297,9 +299,7 @@ def iresize():
 
 def iresize_inplace():
     paths = [os.path.normpath(path) for path in sys.argv[2:] if path.strip()]
-    size = zenity(
-        "zenity --title='Shelp' --entry --text='Enter new size as widthxheight:'"
-    )
+    size = zenity("--title='Shelp' --entry --text='Enter new size as widthxheight:'")
     success = 0
     for path in paths:
         if os.path.isfile(path) and not os.path.islink(path):
@@ -320,9 +320,9 @@ def doit(command):
 
 def gui():
     global rest
-    if run("killall zenity"):
+    if run("killall yad"):
         return
-    output = zenity("zenity --title='Shelp' --entry --text='Enter a shelp command:'")
+    output = zenity("--title='Shelp' --entry --text='Enter a shelp command:'")
     output = output.split(" ")
     command = output[0]
     rest = " ".join(output[1:])
