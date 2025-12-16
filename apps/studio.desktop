@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=/home/stranger/.apps/android-studio/bin/studio
+Name=Android Studio
+Icon=/home/stranger/.apps/android-studio/bin/studio.svg

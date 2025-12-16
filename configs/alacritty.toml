@@ -2,17 +2,17 @@
 size = 14.0
 
 [font.bold]
-family = "StrangerMono"
+family = "Google Sans Code"
 style = "Bold"
 
 [font.bold_italic]
-family = "StrangerMono"
+family = "Google Sans Code"
 style = "Bold Italic"
 
 [font.italic]
-family = "StrangerMono"
+family = "Google Sans Code"
 style = "Italic"
 
 [font.normal]
-family = "StrangerMono"
+family = "Google Sans Code"
 style = "Regular"

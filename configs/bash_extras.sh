@@ -18,5 +18,8 @@ alias 'cd..'='cd ..'
 #     cd $1
 # }
 # export -f mkcd
+JAVA_HOME=/home/stranger/.apps/android-studio/jbr/
 
-PS1='\[\e[93m\]╭\[\e[92m\]\@ \[\e[93;1m\]◦ \[\e[22m\]\u \[\e[1m\]◦ \[\e[0;95m\]\w\[\e[38;5;242m\]⏎\n\[\e[93m\]╰─────────⌲ \[\e[0m\]'
+PATH=$PATH:/home/stranger/.apps/android-studio/bin/
+PATH=$PATH:/home/stranger/.apps/android-studio/jbr/bin/
+# PS1='\[\e[93m\]╭\[\e[92m\]\@ \[\e[93;1m\]◦ \[\e[22m\]\u \[\e[1m\]◦ \[\e[0;95m\]\w\[\e[38;5;242m\]⏎\n\[\e[93m\]╰─────────⌲ \[\e[0m\]'

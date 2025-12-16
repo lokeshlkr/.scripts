@@ -79,7 +79,6 @@ paths = {
     "home": home,
     "rust": f"{home}/working_folder/rust/practice",
     "self": f"{home}/working_folder/.scripts",
-    "": f"{home}/working_folder/.scripts",
 }
 mappings = {
     "t": terminal,
@@ -226,11 +225,12 @@ def edit():
         openineditor(path)
     else:
         notify(
-            f"Folder name '{rest}' not configured",
+            f"Folder name '{rest}' not configured. Opening {editor} without path.",
             fg="orange",
             style="bold",
             level=Level.BOTH,
         )
+        run("zed")
 
 
 def restart(name=None, path=None):
@@ -255,10 +255,10 @@ def restart(name=None, path=None):
 
 
 def refresh():
-    restart(
-        name="clipman_deamon.py",
-        path="/home/astrofish/working_folder/.scripts/shortcut-helper/clipman_deamon.py",
-    )
+    # restart(
+    #     name="clipman_deamon.py",
+    #     path="/home/astrofish/working_folder/.scripts/shortcut-helper/clipman_deamon.py",
+    # )
     restart(name="sxhkd")
 
 

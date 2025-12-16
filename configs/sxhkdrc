@@ -1,14 +1,13 @@
 # re-mapped super key by itself
-F34
-    {s gui}
+#F34
+#    {s gui}
 
-super + {Return,r,w,g,e,l,t}
-    {alacritty,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty}
+super + {Return,q,w,g,e,l,t,s}
+    {alacritty,rofi -show drun,firefox,gpick,thunar,xflock4,alacritty,s gui}
 
-super + {shift + r,1}
-    {s refresh ,s paste}
+super + {shift + r,shift + c,shift + s}
+    {s refresh ,gpick,xfce4-screenshooter -rc}
 
 # re-mapped capslock key
-F35
-    {s gui}
-
+#F35
+#    {s gui}
