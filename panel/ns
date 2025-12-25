@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # An example script for the genmon plugin displaying the bandwidth.
 # pass the interface name as first parameter to the script
@@ -52,8 +52,17 @@ dtx=$(($ctx - ${olddata[2]}))
 rx=$(( ($drx * 1000000000) / ($dt * 1024) ))
 tx=$(( ($dtx * 1000000000) / ($dt * 1024) ))
 
+rx_mb=$(( $rx / 1024 ))
+tx_mb=$(( $tx / 1024 ))
+rx_mb_decimal=$(( $rx % 1024 ))
+tx_mb_decimal=$(( $tx % 1024 ))
+
 printf "$now $crx $ctx" > /tmp/netlog
-printf "% 5d-% 5d" $tx $rx
-text="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
-printf "<txt>$text</txt>\n" $tx $rx
+text_kb="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
+text_mb="<span color='#ee77aa'>% 3d.%02d ↑ </span>\n<span color='#77aaee'>% 3d.%02d ↓ </span>"
+if [[ "$2" == "mb" ]]; then
+    printf "<txt>$text_mb</txt>\n" $tx_mb $tx_mb_decimal  $rx_mb $rx_mb_decimal
+else
+    printf "<txt>$text_kb</txt>\n" $tx $rx
+fi
 printf "<tool>Bandwidth on interface <b>$interface</b></tool>"
