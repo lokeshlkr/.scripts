@@ -1,9 +1,9 @@
 #! /usr/bin/sh
 
-alias ls='ls -lah --color=auto --ignore=..'
+alias lah='ls -lah --color=auto --ignore=..'
 alias ll='ls -lav --ignore=..'   # show long listing of all except ".."
 alias l='ls -lav --ignore=.?*'   # show long listing but no hidden dotfiles except "."
-alias lf='ls | grep -i'
+alias lf='ls -a | grep -i'
 
 
 alias install='paru -S'

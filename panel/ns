@@ -57,6 +57,9 @@ tx_mb=$(( $tx / 1024 ))
 rx_mb_decimal=$(( $rx % 1024 ))
 tx_mb_decimal=$(( $tx % 1024 ))
 
+rx_mb_decimal=${rx_mb_decimal:0:2}
+tx_mb_decimal=${tx_mb_decimal:0:2}
+
 printf "$now $crx $ctx" > /tmp/netlog
 text_kb="<span color='#ee77aa'>% 5d ↑ </span>\n<span color='#77aaee'>% 5d ↓ </span>"
 text_mb="<span color='#ee77aa'>% 3d.%02d ↑ </span>\n<span color='#77aaee'>% 3d.%02d ↓ </span>"
